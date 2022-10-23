@@ -1,3 +1,8 @@
+# Task 2 links:
+
+S3-website(public access is turned off): http://my-first-shop-bucket.s3-website-us-east-1.amazonaws.com/
+Cloudfront: https://d1t2xb7kj13v0f.cloudfront.net/
+
 # Shop Angular Cloudfront
 
 Angular version: ~12.
