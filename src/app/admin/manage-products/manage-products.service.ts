@@ -1,7 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { ApiService } from '../../core/api.service';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { ApiResponse } from 'src/api/api-response';
 
 @Injectable()
 export class ManageProductsService extends ApiService {
@@ -32,10 +33,12 @@ export class ManageProductsService extends ApiService {
   private getPreSignedUrl(fileName: string): Observable<string> {
     const url = this.getUrl('import', 'import');
 
-    return this.http.get<string>(url, {
-      params: {
-        name: fileName,
-      },
-    });
+    return this.http
+      .get<ApiResponse<string>>(url, {
+        params: {
+          name: fileName,
+        },
+      })
+      .pipe(map((response) => response.data));
   }
 }
