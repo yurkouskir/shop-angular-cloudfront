@@ -3,10 +3,11 @@ import { EMPTY, Observable } from 'rxjs';
 import { ApiService } from '../../core/api.service';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiResponse } from 'src/api/api-response';
+import { AuthService } from 'src/app/core/auth/auth-service';
 
 @Injectable()
 export class ManageProductsService extends ApiService {
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private readonly authService: AuthService) {
     super(injector);
   }
 
@@ -32,9 +33,14 @@ export class ManageProductsService extends ApiService {
 
   private getPreSignedUrl(fileName: string): Observable<string> {
     const url = this.getUrl('import', 'import');
+    const authToken = this.authService.getAuthToken();
 
     return this.http
       .get<ApiResponse<string>>(url, {
+        headers: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Authorization: authToken,
+        },
         params: {
           name: fileName,
         },
